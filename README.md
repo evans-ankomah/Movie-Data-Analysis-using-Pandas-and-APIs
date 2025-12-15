@@ -92,31 +92,39 @@ revenue_vs_budget(df_final)
 
 ```
 ## Installation
-1️ Clone the repository
+
+---
+### 1️ Clone the repository
 git clone <your-repo-url>
 cd tmdb_pipeline
 
-2️ Install dependencies
+---
+
+### 2️ Install dependencies
 pip install -r requirements.txt
 
- Configuration
+---
+## Configuration
 
 Update your TMDB API key and constants in config.py:
 
 API_KEY = "YOUR_TMDB_API_KEY"
 
- Why This Design
+---
+### Why This Design
 
-Clean separation of concerns
-Easy debugging and testing
-Notebook can be replaced with Airflow or Prefect
-Scales well for real-world data pipelines
+- Clean separation of concerns
+- Easy debugging and testing
+- Notebook can be replaced with Airflow or Prefect
+- Scales well for real-world data pipelines
 
- Technologies Used
-Python
-Pandas
-NumPy
-Requests
-Matplotlib
-Seaborn
-Jupyter Notebook
+---
+
+### Technologies Used
+- Python
+- Pandas
+- NumPy
+- Requests
+- Matplotlib
+- Seaborn
+- Jupyter Notebook
