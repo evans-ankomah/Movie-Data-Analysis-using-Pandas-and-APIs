@@ -1,58 +1,191 @@
+"""
+Data Cleaning and Feature Engineering Module
+==============================================
+Transforms raw TMDB API data into analysis-ready dataframe.
+
+This module handles:
+- Extraction of nested JSON fields (genres, cast, crew, production details)
+- Data type conversion and validation
+- Removal of unrealistic values (zero budgets, invalid ratings)
+- Unit conversion (USD to millions, datetime parsing)
+- Data quality filtering and imputation
+- Final column selection and ordering
+
+Example:
+    >>> from scripts.clean import run
+    >>> df_raw = pd.read_json("raw_tmdb_movies.json")
+    >>> df_clean = run(df_raw)
+"""
+
 import numpy as np
 import pandas as pd
 
+
 # ---------- Helper Functions ----------
+
 def extract_collection_name(collection):
+    """Extract franchise/collection name from nested collection object.
+    
+    Args:
+        collection: Dict with 'name' key or None.
+        
+    Returns:
+        str: Collection name or NaN if not found.
+    """
     if isinstance(collection, dict) and 'name' in collection:
         return collection['name']
     return np.nan
 
+
 def extract_genres(genres_list):
+    """Extract and join genre names from genres list.
+    
+    Args:
+        genres_list: List of genre dicts with 'name' key.
+        
+    Returns:
+        str: Pipe-separated genre names (e.g. 'Action|Sci-Fi|Thriller') or NaN.
+    """
     if isinstance(genres_list, list) and len(genres_list) > 0:
         return '|'.join([genre['name'] for genre in genres_list if 'name' in genre])
     return np.nan
 
+
 def extract_spoken_languages(languages_list):
+    """Extract and join spoken language names.
+    
+    Args:
+        languages_list: List of language dicts with 'name' key.
+        
+    Returns:
+        str: Pipe-separated language names or NaN.
+    """
     if isinstance(languages_list, list) and len(languages_list) > 0:
         return '|'.join([lang['name'] for lang in languages_list if 'name' in lang])
     return np.nan
 
+
 def extract_production_countries(countries_list):
+    """Extract and join production country names.
+    
+    Args:
+        countries_list: List of country dicts with 'name' key.
+        
+    Returns:
+        str: Pipe-separated country names or NaN.
+    """
     if isinstance(countries_list, list) and len(countries_list) > 0:
         return '|'.join([country['name'] for country in countries_list if 'name' in country])
     return np.nan
 
+
 def extract_production_companies(companies_list):
+    """Extract and join production company names.
+    
+    Args:
+        companies_list: List of company dicts with 'name' key.
+        
+    Returns:
+        str: Pipe-separated company names or NaN.
+    """
     if isinstance(companies_list, list) and len(companies_list) > 0:
         return '|'.join([company['name'] for company in companies_list if 'name' in company])
     return np.nan
 
+
 def extract_cast(credits):
-    """Extract top 5 cast members as 'Actor1|Actor2|...' or NaN."""
+    """Extract top 5 cast members from credits dict.
+    
+    Args:
+        credits: Dict with 'cast' key containing list of actor dicts.
+        
+    Returns:
+        str: Pipe-separated actor names (e.g. 'Actor1|Actor2|...') or NaN.
+    """
     if isinstance(credits, dict) and 'cast' in credits:
         cast_list = credits['cast'][:5]
         return '|'.join([actor['name'] for actor in cast_list if 'name' in actor])
     return np.nan
 
+
 def extract_cast_size(credits):
+    """Extract total number of cast members.
+    
+    Args:
+        credits: Dict with 'cast' key containing list of actor dicts.
+        
+    Returns:
+        int: Count of cast members or NaN.
+    """
     if isinstance(credits, dict) and 'cast' in credits:
         return len(credits['cast'])
     return np.nan
 
+
 def extract_crew_size(credits):
+    """Extract total number of crew members.
+    
+    Args:
+        credits: Dict with 'crew' key containing list of crew dicts.
+        
+    Returns:
+        int: Count of crew members or NaN.
+    """
     if isinstance(credits, dict) and 'crew' in credits:
         return len(credits['crew'])
     return np.nan
 
+
 def extract_director(credits):
+    """Extract director name from crew list.
+    
+    Args:
+        credits: Dict with 'crew' key containing list of crew dicts with 'job' field.
+        
+    Returns:
+        str: Director name or 'Unknown' if not found.
+    """
     if isinstance(credits, dict) and 'crew' in credits:
         for person in credits['crew']:
             if person.get('job') == 'Director':
                 return person.get('name', 'Unknown')
     return 'Unknown'
+                
+
 
 # ---------- Main Cleaning Pipeline ----------
+
 def run(df_raw: pd.DataFrame) -> pd.DataFrame:
+    """Clean and transform raw TMDB API data for analysis.
+    
+    Executes the full data cleaning pipeline:
+    1. Drop irrelevant columns
+    2. Extract nested JSON fields to flat columns
+    3. Convert data types (numeric, datetime)
+    4. Replace unrealistic values (0 budget → NaN)
+    5. Unit conversion (USD to millions)
+    6. Clean empty/invalid text fields
+    7. Remove duplicates and incomplete rows
+    8. Final column selection and ordering
+    
+    Args:
+        df_raw (pd.DataFrame): Raw dataframe from extract.run() with nested JSON fields.
+        
+    Returns:
+        pd.DataFrame: Clean, analysis-ready dataframe with standardized columns:
+                     - Financial: budget_musd, revenue_musd, profit_musd, roi
+                     - Ratings: vote_count, vote_average, popularity
+                     - Metadata: id, title, genres, director, cast, release_date, etc.
+                     
+    Note:
+        - Output shape: (num_movies, 21 columns)
+        - All rows have >= 10 non-null values
+        - Only 'Released' status movies included
+        
+    Example:
+        >>> df_clean = run(df_raw)
+        >>> print(f"Cleaned shape: {df_clean.shape}")
+    """
     df = df_raw.copy()
 
     # 1. Drop irrelevant columns
