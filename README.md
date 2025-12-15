@@ -14,6 +14,15 @@ tmdb_pipeline/
 │ └── orchestrator.ipynb
 │
 ├── scripts/
+│ ├── extract.py # Fetches movie data from TMDB API
+│ ├── clean.py # Cleans and transforms raw data
+│ ├── analysis.py # KPI calculations and metrics
+│ ├── queries.py # Advanced filtering and search logic
+│ └── visualize.py # Data visualisation functions
+│
+├── config.py # API keys, constants, movie IDs
+├── requirements.txt # Project dependencies
+└── README.md
 
 
 ##  Orchestration Design
@@ -98,10 +107,10 @@ API_KEY = "YOUR_TMDB_API_KEY"
 
  Why This Design
 
-✔ Clean separation of concerns
-✔ Easy debugging and testing
-✔ Notebook can be replaced with Airflow or Prefect
-✔ Scales well for real-world data pipelines
+Clean separation of concerns
+Easy debugging and testing
+Notebook can be replaced with Airflow or Prefect
+Scales well for real-world data pipelines
 
  Technologies Used
 Python
