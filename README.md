@@ -9,20 +9,19 @@ The notebook acts as the **orchestrator**, while individual Python scripts handl
 
 ## Project Structure
 tmdb_pipeline/
-│
-├── notebooks/
-│   └── orchestrator.ipynb
-│
-├── scripts/
-│   ├── extract.py        # Fetches movie data from TMDB API
-│   ├── clean.py          # Cleans and transforms raw data
-│   ├── analysis.py       # KPI calculations and metrics
-│   ├── queries.py        # Advanced filtering and search logic
-│   └── visualize.py     # Data visualisation functions
-│
-├── config.py             # API keys, constants, movie IDs
-├── requirements.txt      # Project dependencies
-└── README.md
+
+    notebooks/
+        └── orchestrator.ipynb
+     scripts/
+        ├── extract.py        # Fetches movie data from TMDB API
+        ├── clean.py          # Cleans and transforms raw data
+        ├── analysis.py       # KPI calculations and metrics
+        ├── queries.py        # Advanced filtering and search logic
+        └── visualize.py     # Data visualisation functions
+
+    config.py             # API keys, constants, movie IDs
+    requirements.txt      # Project dependencies
+    README.md
 
 
 ##  Orchestration Design
