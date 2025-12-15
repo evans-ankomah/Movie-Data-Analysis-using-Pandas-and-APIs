@@ -14,11 +14,19 @@ tmdb_pipeline/
 │ └── orchestrator.ipynb
 │
 ├── scripts/
+<<<<<<< HEAD
 │ ├── extract.py # Fetches movie data from TMDB API
 │ ├── clean.py # Cleans and transforms raw data
 │ ├── analysis.py # KPI calculations and metrics
 │ ├── queries.py # Advanced filtering and search logic
 │ └── visualize.py # Data visualisation functions
+=======
+│   ├── extract.py        # Fetches movie data from TMDB API 
+│   ├── clean.py          # Cleans and transforms raw data 
+│   ├── analysis.py       # KPI calculations and metrics
+│   ├── queries.py        # Advanced filtering and search logic
+│   └── visualize.py     # Data visualisation functions
+>>>>>>> dcab6cd849b838205c57842d7f0233c2fd65f3b4
 │
 ├── config.py # API keys, constants, movie IDs
 ├── requirements.txt # Project dependencies
