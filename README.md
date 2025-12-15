@@ -9,20 +9,20 @@ The notebook acts as the **orchestrator**, while individual Python scripts handl
 
 ## Project Structure
 tmdb_pipeline/
-
-    notebooks/
-        └── orchestrator.ipynb
-     scripts/
-        ├── extract.py        # Fetches movie data from TMDB API
-        ├── clean.py          # Cleans and transforms raw data
-        ├── analysis.py       # KPI calculations and metrics
-        ├── queries.py        # Advanced filtering and search logic
-        └── visualize.py     # Data visualisation functions
-
-    config.py             # API keys, constants, movie IDs
-    requirements.txt      # Project dependencies
-    README.md
-
+│
+├── notebooks/
+│ └── orchestrator.ipynb
+│
+├── scripts/
+│ ├── extract.py # Fetches movie data from TMDB API
+│ ├── clean.py # Cleans and transforms raw data
+│ ├── analysis.py # KPI calculations and metrics
+│ ├── queries.py # Advanced filtering and search logic
+│ └── visualize.py # Data visualisation functions
+│
+├── config.py # API keys, constants, movie IDs
+├── requirements.txt # Project dependencies
+└── README.md
 
 ##  Orchestration Design
 - **Scripts** perform individual tasks (extract, clean, analyze, visualize)
@@ -88,3 +88,41 @@ df_clean = clean(df_raw)
 df_final = add_kpis(df_clean)
 
 revenue_vs_budget(df_final)
+
+
+Installation
+1️ Clone the repository
+git clone <your-repo-url>
+cd tmdb_pipeline
+
+2️ Install dependencies
+pip install -r requirements.txt
+
+ Configuration
+
+Update your TMDB API key and constants in config.py:
+
+API_KEY = "YOUR_TMDB_API_KEY"
+
+ Why This Design
+
+✔ Clean separation of concerns
+✔ Easy debugging and testing
+✔ Notebook can be replaced with Airflow or Prefect
+✔ Scales well for real-world data pipelines
+
+ Technologies Used
+
+Python
+
+Pandas
+
+NumPy
+
+Requests
+
+Matplotlib
+
+Seaborn
+
+Jupyter Notebook
