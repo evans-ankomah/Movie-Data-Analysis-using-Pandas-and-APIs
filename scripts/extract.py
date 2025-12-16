@@ -10,10 +10,7 @@ This module handles:
 - JSON persistence
 
 Example:
-    >>> from scripts.extract import run
-    >>> df_raw = run()
-    >>> print(df_raw.shape)
-    (19, 25)
+   
 """
 
 import time
@@ -37,10 +34,6 @@ def fetch_movie(movie_id: int) -> dict:
     Raises:
         Exception: If API returns an error code (except 404).
         
-    Examples:
-        >>> movie = fetch_movie(299534)  # Avatar
-        >>> print(movie['title'])
-        'Avatar'
     """
     url = f"{BASE_URL}/movie/{movie_id}"
     params = {

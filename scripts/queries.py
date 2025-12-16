@@ -30,10 +30,7 @@ def bruce_willis_scifi_action(df):
         
     Returns:
         pd.DataFrame: Subset of movies with columns: title, vote_average, vote_count, genres, cast.
-        
-    Examples:
-        >>> bruce_scifi = bruce_willis_scifi_action(df)
-        >>> print(f"Found {len(bruce_scifi)} Bruce Willis Sci-Fi Action movies")
+ 
     """
     result = df[
         (df['genres'].str.contains('Science Fiction', case=False, na=False)) &
@@ -58,9 +55,6 @@ def uma_thurman_tarantino(df):
     Returns:
         pd.DataFrame: Subset of movies with columns: title, runtime, director, cast, release_date.
         
-    Examples:
-        >>> tarantino_films = uma_thurman_tarantino(df)
-        >>> print(tarantino_films)
     """
     result = df[
         (df['cast'].str.contains('Uma Thurman', case=False, na=False)) &
@@ -85,11 +79,7 @@ def franchise_analysis(df):
     Returns:
         pd.DataFrame: Comparison table with metrics: Revenue, ROI, Budget, Popularity, Rating.
                      Columns: Metric, Franchise Movies, Standalone Movies, Difference.
-                     
-    Examples:
-        >>> comparison = franchise_analysis(df)
-        >>> print(comparison)
-        >>> print(f"Franchises earn {comparison.loc[0, 'Difference']:.1f}M more on average")
+
     """
     df = df.copy()
     df['is_franchise'] = df['collection_name'].notna()
